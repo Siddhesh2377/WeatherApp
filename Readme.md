@@ -1,3 +1,5 @@
+# WeatherApp
+
 A simple Android weather app that fetches real-time weather data using the **OpenWeatherMap API**. It features smart city search, error handling, and displays weather information cleanly.
 
 ## Features
@@ -24,6 +26,11 @@ A simple Android weather app that fetches real-time weather data using the **Ope
    private static final String API_KEY = "YOUR_API_KEY";
    ```
 3. Open in **Android Studio**, build, and run on an emulator or device.
+
+## Release
+- **Latest Release**: Stable1
+- **APK Downloads**:
+    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
 
 ## Screenshots
 ![Main Screen](screenshot_main.png)
