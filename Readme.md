@@ -35,10 +35,11 @@ A simple, lightweight Android weather app that fetches real-time weather data us
 - **[View Build Status](https://github.com/Siddhesh2377/WeatherApp/actions)**
 
 ### Latest Release
+
 - **Version**: Stable 1
 - **APK Downloads**:
     - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
 
 ## Screenshots
-![Main Screen](screenshot_main.png)
+![Main Screen](https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325)
 
