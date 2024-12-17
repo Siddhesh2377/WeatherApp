@@ -1,39 +1,45 @@
 # WeatherApp
 
-A simple Android weather app that fetches real-time weather data using the **OpenWeatherMap API**. It features smart city search, error handling, and displays weather information cleanly.
+A simple, lightweight Android weather app that fetches real-time weather data using the **OpenWeatherMap API**. It provides accurate weather information with smart search functionality and robust error handling.
 
 ## Features
-- **Weather Data**: Temperature, Feels-like, Humidity, Wind Speed, Pressure, Visibility, and Sunset.
-- **AutoComplete City Search**: Suggests city names while typing.
+- **Real-Time Weather**: Displays Temperature, Feels-like temperature, Humidity, Wind Speed, Pressure, Visibility, and Sunset time.
+- **Smart City Search**: AutoComplete feature suggests city names as you type.
 - **Error Handling**:
-    - No internet connection.
-    - Invalid city names.
-- **Recent Search Navigation**: Previous and Next buttons for recently searched cities.
+    - Gracefully handles **no internet connection**.
+    - Alerts for **invalid city names**.
+- **Recent Search Navigation**: Quickly navigate between previously searched cities using **Previous** and **Next** buttons.
 
 ## Technologies Used
-- **Java**
-- **OkHttp**: Network requests
-- **Gson**: JSON parsing
-- **OpenWeatherMap API**
+- **Java**: Core programming language.
+- **OkHttp**: For efficient network requests.
+- **Gson**: JSON parsing.
+- **OpenWeatherMap API**: Weather data provider.
 
 ## How to Run
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/WeatherApp.git
    ```
-2. Add your **OpenWeatherMap API Key** in `WeatherFetcher.java`:
+2. **Add your OpenWeatherMap API Key** in `WeatherFetcher.java`:
    ```java
    private static final String API_KEY = "YOUR_API_KEY";
    ```
-3. Open in **Android Studio**, build, and run on an emulator or device.
+3. **Build and Run**:
+    - Open the project in **Android Studio**.
+    - Build the project.
+    - Run it on an emulator or physical device.
 
-## Release
-- **Latest Release**: Stable1
+## Builds
+### GitHub Actions
+- **[View Build Status](https://github.com/Siddhesh2377/WeatherApp/actions)**
+
+### Latest Release
+- **Version**: Stable 1
 - **APK Downloads**:
-    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
+    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/download/Releasee/app-debug.apk)
+    - [Release APK](https://github.com/Siddhesh2377/WeatherApp/releases/download/Releasee/app-release.apk)
 
 ## Screenshots
 ![Main Screen](screenshot_main.png)
 
-## License
-This project is licensed under the **MIT License**.
