@@ -43,3 +43,5 @@ A simple, lightweight Android weather app that fetches real-time weather data us
 ## Screenshots
 ![Main Screen](https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325)
 
+## Screenshots
+<img src="https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325" alt="Main Screen" width="300" height="600">
