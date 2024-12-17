@@ -2,6 +2,8 @@ package com.dark.weatherapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -182,54 +184,67 @@ public class MainActivity extends AppCompatActivity {
     private void fetchWeather(String name) {
         WeatherFetcher fetcher = new WeatherFetcher();
 
+        // Show a loading message initially
+        binding.weatherTypeText.setText("Loading...");
+        binding.temp.setText("Loading...");
+        binding.valFeelTemp.setText("-");
+        binding.valHumidity.setText("-");
+        binding.valPressure.setText("-");
+        binding.valWind.setText("-");
+        binding.valVisibility.setText("-");
+        binding.valSunset.setText("-");
+
         fetcher.fetchWeather(name, new WeatherCallback() {
             @Override
             public void onSuccess(WeatherData data) {
                 runOnUiThread(() -> {
                     closeSearch();
 
-                    // Add the city to recentCities if not already present
-                    if (!recentCities.contains(name)) {
-                        recentCities.add(name);
-                        currentCityIndex = recentCities.size() - 1; // Set current index to the newly added city
-                    }
-
-                    // Update UI with the fetched data
-                    updateWeatherUI(name, data);
+                    // Update UI with fetched weather data
+                    binding.cityName.setText(name);
+                    binding.temp.setText(data.getTemperature() + "°C");
+                    binding.valFeelTemp.setText(data.getFeelsLike() + "°C");
+                    binding.valHumidity.setText(data.getHumidity() + "%");
+                    binding.valPressure.setText(data.getPressure() + " hPa");
+                    binding.valWind.setText(data.getWindSpeed() + " km/h");
+                    binding.valVisibility.setText(data.getVisibility() + " M");
+                    binding.valSunset.setText(new java.text.SimpleDateFormat("HH:mm")
+                            .format(new java.util.Date(data.getSunset() * 1000)));
+                    binding.weatherTypeText.setText(data.getCondition() + "\n" + data.getDescription());
                 });
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                runOnUiThread(() -> Log.e("WeatherFetcher", "Error: " + errorMessage));
+                runOnUiThread(() -> {
+                    closeSearch();
+
+                    // Clear weather info and display specific error
+                    binding.cityName.setText("Error");
+                    binding.temp.setText("N/A");
+                    binding.valFeelTemp.setText("N/A");
+                    binding.valHumidity.setText("N/A");
+                    binding.valPressure.setText("N/A");
+                    binding.valWind.setText("N/A");
+                    binding.valVisibility.setText("N/A");
+                    binding.valSunset.setText("N/A");
+
+                    if (isInternetAvailable()) {
+                        if ("Response not successful".contains(errorMessage)) {
+                            binding.weatherTypeText.setText("City not found.");
+                        } else {
+                            binding.weatherTypeText.setText(errorMessage);
+                        }
+                    } else {
+                        binding.weatherTypeText.setText("Check your Internet Connection..");
+                    }
+
+                    // Check for specific error messages
+
+                    Log.e("Main", errorMessage);
+                });
             }
         });
-
-//
-//        fetcher.fetchWeather(name, new WeatherCallback() {
-//            @Override
-//            public void onSuccess(WeatherData data) {
-//                runOnUiThread(() -> {
-//                    closeSearch();
-//
-//                    // Update UI with the fetched data
-//                    binding.cityName.setText(name);
-//                    binding.temp.setText(data.getTemperature() + "°C");
-//                    binding.valFeelTemp.setText(data.getFeelsLike() + "°C");
-//                    binding.valHumidity.setText(data.getHumidity() + "%");
-//                    binding.valPressure.setText(data.getPressure() + " hPa");
-//                    binding.valWind.setText(data.getWindSpeed() + " km/h");
-//                    binding.valVisibility.setText(data.getVisibility() + " M");
-//                    binding.valSunset.setText(new java.text.SimpleDateFormat("HH:mm").format(new java.util.Date(data.getSunset() * 1000)));
-//                    binding.weatherTypeText.setText(data.getCondition() + "\n Feels Like " + data.getDescription());
-//                });
-//            }
-//
-//            @Override
-//            public void onFailure(String errorMessage) {
-//                runOnUiThread(() -> Log.e("WeatherFetcher", "Error: " + errorMessage));
-//            }
-//        });
     }
 
     private void nextorPrv() {
@@ -268,5 +283,17 @@ public class MainActivity extends AppCompatActivity {
         binding.weatherTypeText.setText(data.getCondition() + "\nFeels Like " + data.getDescription());
     }
 
+    private boolean isInternetAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            // For Android Marshmallow and above
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
+    }
 
 }
