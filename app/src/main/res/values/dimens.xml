@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cr_search">16dp</dimen>
+    <dimen name="header_img_size">34dp</dimen>
+    <dimen name="adv_txt_size">14sp</dimen>
+    <dimen name="margin_grd_item">18dp</dimen>
+</resources>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="search_city">Search City</string>
+    <string name="weather_info">Weather Info</string>
+    <string name="sample_city">Enter City</string>
+    <string name="sample_weather">None</string>
+    <string name="sample_weather_temp">+24 C</string>
+    <string name="_56">56%</string>
+    <string name="humidity">Humidity</string>
+    <string name="feel_temp">Feels Like</string>
+    <string name="null_val">-//-</string>
+    <string name="visibility">Visibility</string>
+    <string name="Wind">Wind</string>
+    <string name="Pressure">Pressure</string>
+    <string name="sub_set">Sunset</string>
+</resources>
