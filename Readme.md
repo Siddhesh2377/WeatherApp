@@ -37,8 +37,7 @@ A simple, lightweight Android weather app that fetches real-time weather data us
 ### Latest Release
 - **Version**: Stable 1
 - **APK Downloads**:
-    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/download/Releasee/app-debug.apk)
-    - [Release APK](https://github.com/Siddhesh2377/WeatherApp/releases/download/Releasee/app-release.apk)
+    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
 
 ## Screenshots
 ![Main Screen](screenshot_main.png)
