@@ -40,7 +40,7 @@ A simple, lightweight Android weather app that fetches real-time weather data us
     - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
 
 ## Screenshots
-<img src="https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325" alt="Main Screen" width="300" height="600">
+<img src="https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325" alt="Main Screen" width="320" height="600">
 
 ## License
 This project is licensed under the **MIT License**.
