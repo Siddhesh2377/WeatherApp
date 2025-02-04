@@ -115,14 +115,6 @@ public class HourlyWeatherFragment extends Fragment {
         binding.temp.setText(data.temp + " C");
         binding.subTitle.setText(data.description);
 
-//        this.humidity = humidity; -
-//        this.pressure = pressure;
-//        this.windSpeed = windSpeed;
-//        this.visibility = visibility;
-//        this.sunset = sunset;
-//        this.feelsLike = feelsLike;
-
-
         itemList.add(new WeatherForecastData("Wind Speed", data.windSpeed + " km/h", R.drawable.wind_speed));
         itemList.add(new WeatherForecastData("Humidity", data.humidity + "%", R.drawable.humidity));
         itemList.add(new WeatherForecastData("Pressure", data.pressure + " hPa", R.drawable.pressure));
