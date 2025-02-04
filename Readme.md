@@ -30,7 +30,6 @@ A **modern, feature-rich Android weather app** that fetches real-time weather da
 
 ## 🛠️ **Technologies Used**
 - **Java**: Core programming language.
-- **Android Jetpack Components**: Navigation, ViewModel, LiveData.
 - **OkHttp**: Network requests to fetch data.
 - **Gson**: JSON parsing.
 - **OpenWeatherMap API**: Weather data provider.
