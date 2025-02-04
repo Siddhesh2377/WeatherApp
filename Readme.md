@@ -18,8 +18,8 @@ A **modern, feature-rich Android weather app** that fetches real-time weather da
 - **Custom Font Selection**: Change fonts from the **settings screen** (small, medium, large).
 - **Color Customization**: Choose a color scheme to personalize the app.
 
-### 📷 **Screenshot & Share**
-- Take **screenshots** of the weather report and **share** directly from the app.
+### 📷 **Screenshot**
+![Home Page](https://github.com/user-attachments/assets/3fd36d08-6604-4ddd-998f-d70cda0f805a)
 
 ### ⚙️ **Settings & Navigation**
 - **Navigation Drawer** for quick access to **Settings, Forecast, and Home**.
@@ -56,10 +56,7 @@ A **modern, feature-rich Android weather app** that fetches real-time weather da
 ### Latest Release
 - **Version**: Stable 1
 - **APK Downloads**:
-    - [Debug APK](https://github.com/yourusername/WeatherApp/releases/tag/Release)
-
-## 📸 Screenshots
-![Main Screen](https://github.com/user-attachments/assets/sample-image.png)
+    - [Release APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
 
 ## 🏆 License
 This project is licensed under the **MIT License**.
