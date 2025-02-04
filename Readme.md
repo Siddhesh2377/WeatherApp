@@ -1,22 +1,41 @@
 # WeatherApp
 
-A simple, lightweight Android weather app that fetches real-time weather data using the **OpenWeatherMap API**. It provides accurate weather information with smart search functionality and robust error handling.
+A **modern, feature-rich Android weather app** that fetches real-time weather data using the **OpenWeatherMap API**. It provides **hourly and 7-day weather forecasts**, UI customization options, and an intuitive user interface.
 
-## Features
-- **Real-Time Weather**: Displays Temperature, Feels-like temperature, Humidity, Wind Speed, Pressure, Visibility, and Sunset time.
-- **Smart City Search**: AutoComplete feature suggests city names as you type.
-- **Error Handling**:
-    - Gracefully handles **no internet connection**.
-    - Alerts for **invalid city names**.
-- **Recent Search Navigation**: Quickly navigate between previously searched cities using **Previous** and **Next** buttons.
+## 🌟 Features
 
-## Technologies Used
+### 🏩 **Current Weather**
+- Displays **Temperature**, **Feels-like Temperature**, **Humidity**, **Wind Speed**, **Pressure**, **Visibility**, **Sunrise & Sunset**.
+- **Rain Probability (% Chance of Rain)**.
+- **Weather Conditions** (e.g., Clear, Cloudy, Rainy, etc.).
+
+### ⏳ **Hourly & Weekly Forecast**
+- **Hourly Forecast** (next 24 hours) with **Temperature, Rain Chance, and Condition**.
+- **7-Day Forecast** with **Min/Max Temperature, Rain Probability, and Weather Conditions**.
+
+### 🎨 **Dynamic UI Customization**
+- **System-based Theme**: Supports **Light/Dark Mode** based on device settings.
+- **Custom Font Selection**: Change fonts from the **settings screen** (small, medium, large).
+- **Color Customization**: Choose a color scheme to personalize the app.
+
+### 📷 **Screenshot & Share**
+- Take **screenshots** of the weather report and **share** directly from the app.
+
+### ⚙️ **Settings & Navigation**
+- **Navigation Drawer** for quick access to **Settings, Forecast, and Home**.
+- **Settings Screen** to change:
+    - Temperature unit (Celsius / Fahrenheit).
+    - Font and Theme.
+    - Enable/Disable Weather Alerts.
+
+## 🛠️ **Technologies Used**
 - **Java**: Core programming language.
-- **OkHttp**: For efficient network requests.
+- **Android Jetpack Components**: Navigation, ViewModel, LiveData.
+- **OkHttp**: Network requests to fetch data.
 - **Gson**: JSON parsing.
 - **OpenWeatherMap API**: Weather data provider.
 
-## How to Run
+## 🚀 **How to Run**
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/WeatherApp.git
@@ -30,26 +49,24 @@ A simple, lightweight Android weather app that fetches real-time weather data us
     - Build the project.
     - Run it on an emulator or physical device.
 
-## Builds
+## 💻 Builds
 ### GitHub Actions
-- **[View Build Status](https://github.com/Siddhesh2377/WeatherApp/actions)**
+- **[View Build Status](https://github.com/yourusername/WeatherApp/actions)**
 
 ### Latest Release
 - **Version**: Stable 1
 - **APK Downloads**:
-    - [Debug APK](https://github.com/Siddhesh2377/WeatherApp/releases/tag/Releasee)
+    - [Debug APK](https://github.com/yourusername/WeatherApp/releases/tag/Release)
 
-## Screenshots
-<img src="https://github.com/user-attachments/assets/8aa7f346-a7a8-4042-91ed-25da96a65325" alt="Main Screen" width="320" height="600">
+## 📸 Screenshots
+![Main Screen](https://github.com/user-attachments/assets/sample-image.png)
 
-## License
+## 🏆 License
 This project is licensed under the **MIT License**.
 
 ---
 
 MIT License
-
-Copyright (c) 2024 Siddhesh Sonar
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
