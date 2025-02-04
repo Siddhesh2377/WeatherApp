@@ -48,10 +48,11 @@ A **modern, feature-rich Android weather app** that fetches real-time weather da
     - Open the project in **Android Studio**.
     - Build the project.
     - Run it on an emulator or physical device.
+  
 
 ## 💻 Builds
 ### GitHub Actions
-- **[View Build Status](https://github.com/yourusername/WeatherApp/actions)**
+- **[View Build Status](https://github.com/Siddhesh2377/WeatherApp/actions)**
 
 ### Latest Release
 - **Version**: Stable 1
