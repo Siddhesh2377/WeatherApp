@@ -19,7 +19,7 @@ A **modern, feature-rich Android weather app** that fetches real-time weather da
 - **Color Customization**: Choose a color scheme to personalize the app.
 
 ### 📷 **Screenshot**
-![Home Page](https://github.com/user-attachments/assets/3fd36d08-6604-4ddd-998f-d70cda0f805a)
+<img src="https://github.com/user-attachments/assets/3fd36d08-6604-4ddd-998f-d70cda0f805a" width="300" height="600">
 
 ### ⚙️ **Settings & Navigation**
 - **Navigation Drawer** for quick access to **Settings, Forecast, and Home**.
