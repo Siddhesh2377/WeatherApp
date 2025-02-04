@@ -1,299 +1,88 @@
 package com.dark.weatherapp;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
+import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.dark.weatherapp.adapter.HomePagerAdapter;
 import com.dark.weatherapp.databinding.ActivityMainBinding;
-import com.dark.weatherapp.model.City;
-import com.dark.weatherapp.model.WeatherData;
-import com.google.gson.stream.JsonReader;
+import com.dark.weatherapp.model.weather.WeatherData;
+import com.dark.weatherapp.theme.ThemeManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+
     ActivityMainBinding binding;
-    List<City> cities;
-    List<String> recentCities;
-    int currentCityIndex = -1;
+    ThemeManager themeManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        init();
+        themeManager = new ThemeManager(this);
 
-        binding.cityName.setOnClickListener(v -> openSearch());
 
-        binding.searchIcon.setOnClickListener(v -> {
-            fetchWeather(binding.searchTxt.getText().toString());
-        });
-    }
 
-    private void init() {
-        recentCities = new ArrayList<>();
+        binding.main.setBackgroundColor(themeManager.getSurface());
+        binding.bottomBar.setBackgroundColor(themeManager.getOnSurface());
+        binding.bottomBar.setItemIconTintList(ColorStateList.valueOf(themeManager.getTextColor()));
+        binding.bottomBar.setItemTextColor(ColorStateList.valueOf(themeManager.getTextColor()));
+        binding.bottomBar.setItemActiveIndicatorColor(ColorStateList.valueOf(themeManager.getItem()));
 
-        //Just For Ease...
-        Runnable task = () -> {
-            cities = parseCities();
-            startSearch();
-        };
+        // Set up ViewPager with adapter
+        HomePagerAdapter adapter = new HomePagerAdapter(this);
+        binding.homePager.setAdapter(adapter);
 
-        Thread thread = new Thread(task);
-        thread.start();
-        nextorPrv();
-    }
-
-    private void openSearch() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInputFromWindow(binding.main.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-        binding.searchTxt.requestFocus();
-        binding.searchTxt.showDropDown();
-    }
-
-    private void closeSearch() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        binding.cardWeatherInfo.requestFocus();
-    }
-
-    private void startSearch() {
-        List<String> c = new ArrayList<>();
-
-        for (City city : cities) {
-            c.add(city.getName());
-        }
-
-        // Switching back to the main thread to update UI
-        runOnUiThread(() -> {
-            openSearch();
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, c);
-            binding.searchTxt.setThreshold(1);
-            binding.searchTxt.setAdapter(adapter);
-            binding.searchTxt.setDropDownWidth(450);
-            binding.searchTxt.addTextChangedListener(new android.text.TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(android.text.Editable s) {
-                    String input = s.toString();
-                    for (String cityName : c) {
-                        if (input.equalsIgnoreCase(cityName)) {
-                            // Manually trigger the suggestion dropdown
-                            binding.searchTxt.showDropDown();
-                            break;
-                        }
-                    }
-                }
-            });
-
-            // Ensure dropdown is shown on focus
-            binding.searchTxt.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) {
-                    binding.searchTxt.showDropDown();
-                }
-            });
-        });
-    }
-
-    private List<City> parseCities() {
-        List<City> cities = new ArrayList<>();
-        try {
-            // Load JSON file as a stream
-            InputStream is = getAssets().open("city_list.json");
-            JsonReader reader = new JsonReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-
-            // Start reading the JSON array
-            reader.beginArray();
-            while (reader.hasNext()) {
-                String name = "";
-                double lat = 0.0, lon = 0.0;
-
-                // Start reading each JSON object
-                reader.beginObject();
-                while (reader.hasNext()) {
-                    String key = reader.nextName();
-                    if (key.equals("name")) {
-                        name = reader.nextString();
-                    } else if (key.equals("coord")) {
-                        // Read the "coord" object
-                        reader.beginObject();
-                        while (reader.hasNext()) {
-                            String coordKey = reader.nextName();
-                            if (coordKey.equals("lat")) {
-                                lat = reader.nextDouble();
-                            } else if (coordKey.equals("lon")) {
-                                lon = reader.nextDouble();
-                            } else {
-                                reader.skipValue();
-                            }
-                        }
-                        reader.endObject();
-                    } else {
-                        reader.skipValue(); // Skip unused fields
-                    }
-                }
-                reader.endObject();
-
-                // Add city to the list
-                cities.add(new City(name, lat, lon));
+        // Bottom Navigation Item Selection (Replace switch with if-else)
+        binding.bottomBar.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.hourly) {
+                binding.homePager.setCurrentItem(0);
+                return true;
+            } else if (itemId == R.id.daily) {
+                binding.homePager.setCurrentItem(1);
+                return true;
+            } else if (itemId == R.id.settings) {
+                binding.homePager.setCurrentItem(2);
+                return true;
             }
-            reader.endArray();
-            reader.close();
-        } catch (Exception e) {
-            Log.e("MainActivity", "Error parsing JSON", e);
-        }
-        return cities;
-    }
+            return false;
+        });
 
-    @SuppressLint("SetTextI18n")
-    private void fetchWeather(String name) {
-        WeatherFetcher fetcher = new WeatherFetcher();
-
-        // Show a loading message initially
-        binding.weatherTypeText.setText("Loading...");
-        binding.temp.setText("Loading...");
-        binding.valFeelTemp.setText("-");
-        binding.valHumidity.setText("-");
-        binding.valPressure.setText("-");
-        binding.valWind.setText("-");
-        binding.valVisibility.setText("-");
-        binding.valSunset.setText("-");
-
-        fetcher.fetchWeather(name, new WeatherCallback() {
+        // Sync Bottom Navigation with ViewPager2 Swipes (Replace switch with if-else)
+        binding.homePager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onSuccess(WeatherData data) {
-                runOnUiThread(() -> {
-                    closeSearch();
-
-                    // Update UI with fetched weather data
-                    binding.cityName.setText(name);
-                    binding.temp.setText(data.getTemperature() + "°C");
-                    binding.valFeelTemp.setText(data.getFeelsLike() + "°C");
-                    binding.valHumidity.setText(data.getHumidity() + "%");
-                    binding.valPressure.setText(data.getPressure() + " hPa");
-                    binding.valWind.setText(data.getWindSpeed() + " km/h");
-                    binding.valVisibility.setText(data.getVisibility() + " M");
-                    binding.valSunset.setText(new java.text.SimpleDateFormat("HH:mm")
-                            .format(new java.util.Date(data.getSunset() * 1000)));
-                    binding.weatherTypeText.setText(data.getCondition() + "\n" + data.getDescription());
-                });
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                runOnUiThread(() -> {
-                    closeSearch();
-
-                    // Clear weather info and display specific error
-                    binding.cityName.setText("Error");
-                    binding.temp.setText("N/A");
-                    binding.valFeelTemp.setText("N/A");
-                    binding.valHumidity.setText("N/A");
-                    binding.valPressure.setText("N/A");
-                    binding.valWind.setText("N/A");
-                    binding.valVisibility.setText("N/A");
-                    binding.valSunset.setText("N/A");
-
-                    if (isInternetAvailable()) {
-                        if ("Response not successful".contains(errorMessage)) {
-                            binding.weatherTypeText.setText("City not found.");
-                        } else {
-                            binding.weatherTypeText.setText(errorMessage);
-                        }
-                    } else {
-                        binding.weatherTypeText.setText("Check your Internet Connection..");
-                    }
-
-                    // Check for specific error messages
-
-                    Log.e("Main", errorMessage);
-                });
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (position == 0) {
+                    binding.bottomBar.setSelectedItemId(R.id.hourly);
+                } else if (position == 1) {
+                    binding.bottomBar.setSelectedItemId(R.id.daily);
+                } else if (position == 2) {
+                    binding.bottomBar.setSelectedItemId(R.id.settings);
+                }
             }
         });
     }
 
-    private void nextorPrv() {
-        binding.prv.setOnClickListener(v -> {
-            if (currentCityIndex > 0) {
-                currentCityIndex--;
-                String cityName = recentCities.get(currentCityIndex);
-                fetchWeather(cityName);
-            } else {
-                Log.d("Navigation", "No previous city available.");
-            }
-        });
 
-        binding.nxt.setOnClickListener(v -> {
-            if (currentCityIndex < recentCities.size() - 1) {
-                currentCityIndex++;
-                String cityName = recentCities.get(currentCityIndex);
-                fetchWeather(cityName);
-            } else {
-                Log.d("Navigation", "No next city available.");
-            }
-        });
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void updateWeatherUI(String name, WeatherData data) {
-        binding.cityName.setText(name);
-        binding.temp.setText(data.getTemperature() + "°C");
-        binding.valFeelTemp.setText(data.getFeelsLike() + "°C");
-        binding.valHumidity.setText(data.getHumidity() + "%");
-        binding.valPressure.setText(data.getPressure() + " hPa");
-        binding.valWind.setText(data.getWindSpeed() + " km/h");
-        binding.valVisibility.setText(data.getVisibility() + " M");
-        binding.valSunset.setText(new java.text.SimpleDateFormat("HH:mm")
-                .format(new java.util.Date(data.getSunset() * 1000)));
-        binding.weatherTypeText.setText(data.getCondition() + "\nFeels Like " + data.getDescription());
-    }
-
-    private boolean isInternetAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (connectivityManager != null) {
-            // For Android Marshmallow and above
-            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            return networkCapabilities != null &&
-                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
-        }
-        return false;
-    }
 
 }

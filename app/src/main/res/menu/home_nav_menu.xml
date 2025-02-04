@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/hourly"
+        android:enabled="true"
+        android:icon="@drawable/hourly"
+        android:title="@string/hourly" />
+
+    <item
+        android:id="@+id/daily"
+        android:enabled="true"
+        android:icon="@drawable/daily"
+        android:title="@string/daily" />
+
+
+    <item
+        android:id="@+id/settings"
+        android:enabled="true"
+        android:icon="@drawable/settings"
+        android:title="@string/settings" />
+</menu>

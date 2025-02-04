@@ -2,7 +2,7 @@
     <string name="app_name">Weather App</string>
     <string name="search_city">Search City</string>
     <string name="weather_info">Weather Info</string>
-    <string name="sample_city">Enter City</string>
+    <string name="sample_city">Select City</string>
     <string name="sample_weather">None</string>
     <string name="sample_weather_temp">+24 C</string>
     <string name="_56">56%</string>
@@ -13,4 +13,8 @@
     <string name="Wind">Wind</string>
     <string name="Pressure">Pressure</string>
     <string name="sub_set">Sunset</string>
+    <string name="hourly">Hourly</string>
+    <string name="daily">Daily</string>
+    <string name="settings">Settings</string>
+    <string name="sample_time">9:00 AM</string>
 </resources>

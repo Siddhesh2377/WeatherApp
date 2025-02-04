@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="cr_search">16dp</dimen>
-    <dimen name="header_img_size">34dp</dimen>
-    <dimen name="adv_txt_size">14sp</dimen>
-    <dimen name="margin_grd_item">18dp</dimen>
+    <!-- Text sizes -->
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_medium">20sp</dimen>
+    <dimen name="text_large">24sp</dimen>
+
+    <!-- Common widths/heights for images or layout elements -->
+    <dimen name="image_width_large">130dp</dimen>
+    <dimen name="image_height_large">130dp</dimen>
+
+    <!-- Margins -->
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
 </resources>
